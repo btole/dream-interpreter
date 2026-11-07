@@ -1,16 +1,15 @@
 import OpenAI from 'openai';
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+  });
 
 // Call OpenAI API for dream interpretation
 export async function getDreamInterpretation(dreamText) {
-  if (!process.env.AI_KEY) {
-    throw new Error('Server misconfigured: AI_KEY is missing');
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('Server misconfigured: OPENAI_API_KEY is missing');
   }
 
-  const openai = new OpenAI({
-    apiKey: process.env.AI_KEY,
-    baseURL: process.env.AI_URL,
-  });
-  const model = process.env.AI_MODEL || 'gpt-4o-mini';
+  const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
   try {
     const message = await openai.chat.completions.create({

@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -9,18 +8,11 @@ import dreamsRouter from './routes/dreams.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/*
-Challenge: 
-
-1. There is some code in this codebase which we shouldn’t deploy or push to GitHub. 
-   Delete anything which is untidy, dangerous, or causes unnecessary bloat.
-   hint.md for help!
-*/
-
 const app = express();
 
-if(process.env.NODE_ENV === 'production') {
-  app.use(helmet());
+// Add securiy headers
+if (process.env.NODE_ENV === 'production') {
+  app.use(helmet()); 
 }
 
 const PORT = process.env.PORT || 3001;

@@ -33,11 +33,14 @@ dreamForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({ dream_text: dream }),
         });
 
+        const data = await response.json();
 
         if (!response.ok) {
             showErrorMessage(data.error || 'Failed to process your dream. Please try again.');
             return;
         }
+
+        const newDream = data;
         
         // Clear form
         dreamText.value = '';
@@ -53,7 +56,6 @@ dreamForm.addEventListener('submit', async (e) => {
         submitBtn.disabled = false;
         btnText.style.display = 'inline';
         btnLoading.style.display = 'none';
-        
     }
 });
 
@@ -67,7 +69,6 @@ async function loadDreams() {
 
         const dreams = await response.json();
         displayDreams(dreams);
-        
     } catch (error) {
         console.error('Error:', error);
         dreamsContainer.innerHTML = '<p class="error">Failed to load dreams. Please refresh the page.</p>';
@@ -133,7 +134,6 @@ async function deleteDream(id) {
         }
         
         await loadDreams();
-       
     } catch (error) {
         console.error('Error:', error);
     }
