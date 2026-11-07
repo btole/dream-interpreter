@@ -1,8 +1,12 @@
+import { existsSync } from 'node:fs';
 import { loadEnvFile } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import OpenAI from 'openai';
 
-loadEnvFile(fileURLToPath(new URL('../.env', import.meta.url)));
+const envPath = fileURLToPath(new URL('../.env', import.meta.url));
+if (existsSync(envPath)) {
+  loadEnvFile(envPath);
+}
 
 const openai = new OpenAI({
   apiKey: process.env.AI_KEY
