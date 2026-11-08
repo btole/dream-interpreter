@@ -2,15 +2,17 @@ import { existsSync } from 'node:fs';
 import { loadEnvFile } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import OpenAI from 'openai';
-
+import Groq from "groq-sdk";
 const envPath = fileURLToPath(new URL('../.env', import.meta.url));
 if (existsSync(envPath)) {
   loadEnvFile(envPath);
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.AI_KEY
-});
+const openai = new Groq({
+  apiKey: process.env.AI_KEY,
+  apiUrl: process.env.AI_URL || 'https://api.groq.com/openai/v1',
+  defaultModel: process.env.AI_MODEL || 'openai/gpt-oss-120b'
+})
 
 // Call OpenAI API for dream interpretation
 export async function getDreamInterpretation(dreamText) {
